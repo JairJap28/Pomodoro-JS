@@ -1,0 +1,170 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Pomodoro Technique</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="RESOURCES/CSS/reset.css">
+    <link rel="stylesheet" type="text/css" href="RESOURCES/CSS/styles.css">
+    <link rel="stylesheet" type="text/css" href="RESOURCES/CSS/mobile.css">
+
+    <!-- Add icon library -->
+    <!-- This for rating bar -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Google icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <section class="sectionProgress">
+        <h3 id="titleProgressTask">There is no any task in progress</h3>
+
+        <section class="section_play_task">
+            <section>
+                <h4 id="timeProgress">00:00:00</h4>
+                <h5>HH:MM:SS</h5>
+            </section>
+
+            <button class="start_task" id="btn_control_pause">
+                <i class="material-icons">pause</i>
+            </button>
+
+            <button class="stop_task" id="btn_control_play">
+                <i class="material-icons">play_arrow</i>
+            </button>
+
+            <section class="section_time_break" id="id_section_time_break">
+                <h4>Break</h4>
+                <h5 id="timeBreak">00:00:00</h5>
+            </section>
+        </section>
+
+        <h6>Achieved task: 0</h6>
+    </section>
+
+    <section class="aux-create aux-selector">
+        <section class="sectionCreateTask">
+            <section class="up">
+                <section id="inTask">
+                    <h4>Task</h4>
+                    <input type="text" placeholder="Task...." id="input_task">
+                </section>
+    
+                <section id="inDescription">
+                    <h4>Description</h4>
+                    <section id="inputField">
+                        <textarea type="text" placeholder="Write a short description" id="input_description"></textarea>
+    
+                        <h6 id="cant_characters">26/100</h6>
+                    </section>
+                </section>
+            </section>
+    
+            <section class="down">
+    
+                <section class="sectionTime">
+                    <section>
+                        <h5>Work time:</h5>
+                        <input type="number" min="5" max="180" step="1" value="25" id="input_work_time">
+                    </section>
+    
+                    <section>
+                        <h5>Short Break:</h5>
+                        <input type="number" min="5" max="60" step="1" value="5" id="input_short_break">
+                    </section>
+    
+                    <section>
+                        <h5>Long Break:</h5>
+                        <input type="number" min="5" max="60" step="1" value="15" id="input_long_break">
+                    </section>
+                </section>
+    
+                <section class="buttons">
+                    <div class="containerRating">
+                        <div class="ratingBar">
+                            <i class="material-icons start" id="star1">start</i>
+                            <i class="material-icons start" id="star2">start</i>
+                            <i class="material-icons start" id="star3">start</i>
+                            <i class="material-icons start" id="star4">start</i>
+                            <i class="material-icons start" id="star5">start</i>
+                        </div>
+                        <h4>Priority</h4>
+                    </div>
+    
+                    <div class="containerButtons">
+                        <div>
+                            <button class="material-icons" id="btn_add">add</button>
+                            <h4>Add</h4>
+                        </div>
+                        <div>
+                            <button class="material-icons" id="btn_play">play_arrow</button>
+                            <h4>Play</h4>
+                        </div>
+                    </div>
+                </section>
+    
+    
+            </section>
+        </section>
+    </section>
+
+    
+
+    <section class="sectionPendingTask">
+        <h2>Pending Task</h2>
+        <ul id="listTask"></ul>
+    </section>
+
+    <button class="add-hidden">
+        <i class="material-icons">add</i>
+    </button>
+
+    <section class="warning" id="id_warning">
+        <section class="box_warning aux_box_warning">
+            <div id="card_string_left"></div>
+
+            <div id="card_ring_left">
+                <div id="line_vertical"></div>
+                <div id="line_horizontal"></div>
+            </div>
+
+            <div class="aux_string_right">
+                <div id="card_string_right"></div>
+                <div id="card_ring_right">
+                    <div id="line_vertical"></div>
+                    <div id="line_horizontal"></div>
+                </div>
+            </div>
+
+            <button class="aux_close_card" id="btn_close_card">
+                <i class="material-icons">close</i>
+            </button>
+
+            <section class="cardSaveCurrentTask aux_card">
+                <h3>Do you want to add the current task to pending list?</h3>
+
+                <section id="card_btns">
+                    <button id="btn_save">Yes, Add</button>
+                    <button id="btn_dont_save">No, I'm done</button>
+                </section>
+            </section>
+        </section>
+    </section>
+
+
+
+    <div id="snackbar"></div>
+
+    <script type="text/javascript" src="RESOURCES/JS/main.js"></script>
+
+</body>
+
+</html>

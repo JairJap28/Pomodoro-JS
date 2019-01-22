@@ -1,0 +1,411 @@
+/* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+
+@media (min-width: 1281px) {
+} 
+
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  body{
+    width: 80%;
+  }
+
+}
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  body{
+    width: 90%;
+  }
+  
+  .sectionProgress h3{
+    font-size: 45px;
+  }
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media screen and (max-width: 767px) {
+  body{
+    width: 90%;
+  }  
+
+  .sectionProgress{
+    border: none;
+  }
+
+  .sectionProgress h3{
+    font-size: 35px;
+  }
+
+  .sectionProgress h6{
+    display: none;
+  }
+
+  .sectionProgress .aux-play{
+    display: grid;
+    grid-template-areas: "time button break";
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .sectionProgress .section_play_task
+  section:nth-of-type(1){
+    align-self: center;
+  }
+
+
+  .sectionProgress .section_play_task
+  section:nth-of-type(1) h4{
+    font-size: 20px;
+  }
+
+  .sectionProgress .section_play_task
+  section:nth-of-type(1) h5{
+    font-size: 10px;
+  }
+
+  .sectionProgress .section_play_task
+  .start_task{
+    width: 80px;
+    height: 80px;
+    margin: 0 10px 0 10px;
+  }
+
+  /* Section time to break */
+  .sectionProgress .section_play_task 
+  .section_time_break{
+    justify-self: center;
+    width: 50px;
+    height: 50px;
+  }
+
+  .sectionProgress .section_play_task 
+  .section_time_break h4{
+      font-size: 12px;
+      color: red;
+  }
+
+  .sectionProgress .section_play_task 
+  .section_time_break h5{
+      font-size: 10px;
+      vertical-align: bottom;
+  }
+
+  /* Styles for stop button */
+  .sectionProgress .section_play_task
+  .stop_task{
+    width: 80px;
+    height: 80px;
+    margin: 0 10px 0 10px;
+  }
+
+  .sectionProgress .section_play_task
+  .stop_task .material-icons{
+      font-size: 40px;
+  }
+
+  .aux-create{
+    display: none;
+  }
+
+  .aux-selector{
+    width: 100%;
+    height: 100vh;
+    background: rgba(190, 190, 190, 0.3);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .sectionCreateTask{
+    width: 80%;
+    height: 400px;
+    background: white;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(243, 95, 95);
+
+    position: absolute;
+    top: calc(20vh - 35px);
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+
+    z-index: 5;
+  }
+
+  .sectionCreateTask h4{
+    color: #000;
+  }
+
+  .sectionCreateTask .up{
+    grid-template-areas: 
+    'task'
+    'description';
+    grid-template-columns: 1fr;
+    grid-row-gap: 1rem;
+  }
+
+  .sectionCreateTask .up
+  #inTask{
+    grid-area: task;
+    grid-template-areas: 
+    'name'
+    'input';
+    grid-template-columns: 1fr;
+    grid-row-gap: 0.5rem;
+  }
+
+  .sectionCreateTask .up
+  #inDescription{
+    grid-area: description;
+    grid-template-areas: 
+    'name'
+    'input';
+    grid-template-columns: 1fr;
+    grid-row-gap: 0.5rem;
+  }
+
+  .sectionCreateTask .up
+  #inDescription h6{
+    color: rgb(59, 59, 59);
+  }
+
+  .sectionCreateTask .up
+  input,
+  .sectionCreateTask .up
+  textarea{
+    color: #000;
+    background: rgba(255, 160, 160, 0.452);
+  }
+
+
+  .sectionCreateTask input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: rgba(109, 109, 109, 0.795);
+    font-size: 12px;
+  }
+  .sectionCreateTask input ::-moz-placeholder { /* Firefox 19+ */
+    color: rgba(109, 109, 109, 0.795);
+    font-size: 12px;
+  }
+  .sectionCreateTask input :-ms-input-placeholder { /* IE 10+ */
+    color: rgba(109, 109, 109, 0.795);
+    font-size: 12px;
+  }
+  .sectionCreateTask input :-moz-placeholder { /* Firefox 18- */
+    color: rgba(109, 109, 109, 0.795);
+    font-size: 12px;
+  }
+
+  .sectionCreateTask .down{
+    display: grid;
+    grid-template-areas: 
+    'time'
+    'buttons';
+    grid-template-columns: 1fr;
+    grid-row-gap: 2rem;
+    margin: 1.5rem 0 0 0;
+  }
+
+  .sectionCreateTask .down
+  .sectionTime h5{
+    color: #000;
+  }
+
+  .sectionCreateTask .down
+  .sectionTime{
+    grid-area: time;
+    display: grid;
+    grid-template-areas: 
+    'a b'
+    'c .';
+    grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: 1rem;
+  }
+
+  .sectionCreateTask .down
+  .sectionTime section:nth-child(1){
+    grid-area: a;
+    display: grid;
+    grid-template-areas: "name input";
+    grid-template-columns: 2fr 2fr;
+  }
+
+  .sectionCreateTask .down
+  .sectionTime section:nth-child(2){
+    grid-area: b;
+    display: grid;
+    grid-template-areas: "name input";
+    grid-template-columns: 2fr 2fr;
+  }
+
+  .sectionCreateTask .down
+  .sectionTime section:nth-child(3){
+    grid-area: c;
+    display: grid;
+    grid-template-areas: "name input";
+    grid-template-columns: 2fr 2fr;
+  }
+
+  .sectionCreateTask .down
+  .sectionTime input{
+    width: 90%;
+    background: rgba(255, 160, 160, 0.452);
+  }
+
+  .sectionCreateTask .down .sectionTime::before{
+    display: none;
+  }
+
+  .sectionCreateTask .down .sectionTime::after{
+      display: none;
+  }
+
+  .sectionCreateTask .down::before{
+      content: 'Time in minutes';
+      position: absolute;
+      top: -20px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #000;
+  }
+
+  /* ITEMS */
+  .sectionPendingTask .items{
+    display: grid;
+    grid-template-areas:
+    "container-up"
+    "container";
+    grid-template-columns: 1fr;
+    grid-row-gap: 1rem;
+
+  }
+  
+  .sectionPendingTask .items
+  .container-up{
+    display: grid;
+    grid-template-areas: "task description";
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .sectionPendingTask .items
+  .container{
+    display: grid;
+    grid-template-areas: "rating buttonsT";
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sectionPendingTask .items
+  .container .ratingBar i{
+    font-size: 1rem;
+    margin: 0 0.2rem 0 0.2rem;
+  }
+
+  .sectionPendingTask .items
+  .container .buttons{
+    justify-self: end;
+    margin: 0 1rem 0 0;
+  }
+  
+  /* BTN ADD HIDDEN */
+  .add-hidden, 
+  .close-hidden{
+    display: block;
+    width: 35px;
+    height: 35px;
+    background: rgb(243, 95, 95);
+
+    border-radius: 50%;
+    border-style: none;
+
+    box-shadow: 0 0 10px 1px rgba(94, 94, 94, 0.664);
+
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 0 1rem 1rem 0;
+    z-index: 4;
+  }
+
+  .add-hidden:hover,
+  .close-hidden:hover{
+    background: rgb(255, 60, 60);
+  }
+
+  .add-hidden i,
+  .close-hidden i{
+    color: white;
+  }
+
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media screen and (min-width: 320px) and (max-width: 480px) {
+
+  .sectionCreateTask{
+    width: 90%;
+    height: 450px;
+  }
+  
+  .sectionCreateTask .down{
+    grid-row-gap: 1.5rem;
+  }
+
+  .sectionCreateTask .down
+  .buttons{
+    display: grid;
+    grid-template-areas: 
+    'bar'
+    'buttons';
+    grid-template-columns: 1fr;
+    grid-row-gap: 1rem;
+  }
+
+  .sectionCreateTask .down
+  .buttons h4{
+    font-size: 0.8rem;
+  }
+
+  /* ITEMS PENDING TASK */  
+  .sectionPendingTask .items
+  .container-up{
+    display: grid;
+    grid-template-areas: "task" "description";
+    grid-template-columns: 1fr;
+  }
+
+  .sectionPendingTask .items
+  .container-up div{
+    display: grid;
+    grid-template-areas: "task" "description";
+    grid-template-columns: 1fr;
+  }
+
+}  
