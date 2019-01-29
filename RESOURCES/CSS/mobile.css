@@ -408,4 +408,15 @@
     grid-template-columns: 1fr;
   }
 
+
+
+  /* This is for the warning */
+  .warning{
+    width: 100%;
+  }
+
+  .cardSaveCurrentTask{
+    width: 90%;
+  }
+
 }  

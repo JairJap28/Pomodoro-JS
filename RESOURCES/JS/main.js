@@ -1,6 +1,14 @@
 var stars = {};
-var storedTask = [];
+var storedTask = localStorage.getItem("task") ? 
+                    JSON.parse(localStorage.getItem("task")):
+                    {data: []};
+
 var priorityGlobal = 1;
+
+//check if there is any stored task
+if(localStorage.getItem("last_task")){
+    Play.setTask(JSON.parse(localStorage.getItem("last_task")));
+}
 
 //This variables will serte to store
 //the timeOut function
@@ -57,6 +65,16 @@ class Play {
 
     static setTask(task){
         this.task = task;
+        localStorage.setItem("last_task", JSON.stringify(task));
+    }
+
+    //this is for keep a second task
+    static setTmpTask(tmp_task){
+        this.tmp_task = tmp_task;
+    }
+
+    static getTmpTask(){
+        return this.tmp_task;
     }
 
     static getTask(){
@@ -71,24 +89,25 @@ class Play {
         this.timeObjectB = timeObjectB;
     }
 
-    static playSettings() {
-        var task = {
-            id: '_' + Math.random().toString(36).substr(2, 9),
-            name: document.getElementById("input_task").value,
-            description: document.getElementById("input_description").value,
-            workTime: document.getElementById("input_work_time").value,
-            longBreak: document.getElementById("input_long_break").value,
-            shortBreak: document.getElementById("input_short_break").value,
-            priority: priorityGlobal
-        };
+    static playSettings(task) {
+        if(!task || task === undefined){
+            task = {
+                id: '_' + Math.random().toString(36).substr(2, 9),
+                name: document.getElementById("input_task").value,
+                description: document.getElementById("input_description").value,
+                workTime: document.getElementById("input_work_time").value,
+                longBreak: document.getElementById("input_long_break").value,
+                shortBreak: document.getElementById("input_short_break").value,
+                priority: priorityGlobal
+            };
 
-        var validate = ListBinding.validateFields(task);
-        if (validate.flag) {
-            //Clear fields
-            ListBinding.clearFieldsCreate();
-        }
-
-        var time = new Time(task).fixTime();
+            var validate = ListBinding.validateFields(task);
+            if (validate.flag) {
+                //Clear fields
+                ListBinding.clearFieldsCreate();
+            }
+        }   
+        var time = new Time(task).fixTime();             
 
         //this is for progress
         timeObjectP = { h: time.hh, m: time.mm, s: time.ss };
@@ -108,12 +127,13 @@ class Play {
     }
 
     static playFromCreate(task) {
-        debugger;
-        if(!inProgress){
-            var task = Play.playSettings();
-            
+        if(!inProgress){            
             //This is the title of the progress task
             document.getElementById("titleProgressTask").innerText = task.name + " is in progress";
+
+            //set the progress task
+            Play.setTask(task);
+
             Play.playProgress();
         }
         else if(Play.getInPause()){
@@ -122,7 +142,8 @@ class Play {
             
             //This is the title of the progress task
             document.getElementById("titleProgressTask").innerText = task.name + " is in progress";
-            Play.playProgress();
+            //set the progress task
+            Play.setTask(task);
         }
         else{
             if(ListBinding.validateFields(task).flag){
@@ -141,24 +162,27 @@ class Play {
         var ul = li.parentElement;
         var id = divItems.childNodes[2].value;
 
-
         var pos = getPositionStored(id);
-
         if (!inProgress) {
-            //This is the title of the progress task
-            document.getElementById("titleProgressTask").innerText = storedTask[pos].name + " is in progress";
-
+            //Set the new progress task
+            Play.setTask(storedTask[pos]);
+            Play.playSettings(Play.getTask());
             Play.playProgress();
             //Remove task from pending list
             storedTask.splice(pos, 1);
             ul.removeChild(li);
         }
         else if(inProgress && Play.getInPause()){
-            Play.playFromCreate(storedTask[pos]);
+            document.getElementById("id_warning").style.display = "block";
+            //Set the new progress task
+            Play.setTmpTask(storedTask[pos]);
         }
     }
 
     static playProgress() {
+
+        //This is the title of the progress task
+        document.getElementById("titleProgressTask").innerText = Play.getTask().name + " is in progress";
 
         //This is the play button from the section create task
         document.getElementById("btn_play").disabled = true;
@@ -241,8 +265,15 @@ class Play {
 
         //to see the animation
         var btn_play = document.getElementById("btn_control_play");
-        btn_play.classList.remove("auxStopTask");
-        btn_play.disabled = false;
+        btn_play.classList.add("auxStopTask");
+        //Hide play buton
+        btn_play.style.display = "none";
+
+        //Show pause button
+        var btn_pause = document.getElementById("btn_control_pause");
+        var icon_pause = btn_pause.childNodes[1];
+        icon_pause.classList.add("rotate_i");
+        btn_pause.style.display = "block";
 
         document.getElementById("id_section_time_break").classList.remove("auxTimeBreak");
 
@@ -381,7 +412,7 @@ class ListBinding {
         ListBinding.fillStarCrateTask(1);
     }
 
-    static addItemToDOM(newTask) {
+    static addItemToDOM(newTask, flag) {
         //get the list
         var list = document.getElementById('listTask');
 
@@ -398,7 +429,6 @@ class ListBinding {
 
         var task = document.createElement('h4');
         task.innerText = "Task";
-
 
         var nameTask = document.createElement('h3');
         nameTask.innerText = newTask.name;
@@ -474,7 +504,7 @@ class ListBinding {
         btn_remove.appendChild(icon_remove);
 
 
-        btn_remove.addEventListener('click', ListBinding.removeItem);
+        btn_remove.addEventListener('click', function(){ListBinding.removeItem(null, this)});
         divButtons.appendChild(btn_play);
         divButtons.appendChild(btn_remove);
 
@@ -497,32 +527,50 @@ class ListBinding {
         //add everthing to the item
         item.appendChild(divItems);
 
+        
+        debugger;
         //get the position where the item must be stored
         var pos = getPositionTask(newTask.priority);
 
-        //splice allows us to add items at specific
-        //index
-        storedTask.splice(pos, 0, newTask);
-        list.insertBefore(item, list.childNodes[pos]);
+        //if flag = true 
+        //it means we are loading the stored task
+        if(!flag){
+            //splice allows us to add items at specific
+            //index
+            storedTask.data.splice(pos, 0, newTask);
+            
+            //update data in Local Storage
+            localStorage.setItem("task", JSON.stringify(storedTask));
+        }
 
-        //set effect
-        //setColorEffect(pos);
+        list.insertBefore(item, list.childNodes[pos]);
     }
 
     //Remove an item from the pending task
-    static removeItem() {
-        debugger;
-        var items = this.parentElement.parentNode.parentElement;
-        var li = items.parentElement;
-        var lu = li.parentElement;
+    static removeItem(id, e) {
+        //if we get the id
+        //we only have to search for the pos
+        var pos;
+        var li;
+        var lu = document.getElementById("listTask");
+        if(id === undefined || id === null){
+            var items = e.parentElement.parentNode.parentElement;
+            var li = items.parentElement;
 
-        //get the input, it is placed 
-        //in the 4 position
-        var hiddenInput = items.childNodes[2];
-        var pos = getPositionStored(hiddenInput.value);
+            //get the input, it is placed 
+            //in the 4 position
+            var hiddenInput = items.childNodes[2];
+            pos = getPositionStored(hiddenInput.value);
+        }
+        else{
+            pos = getPositionStored(id);
+            li = lu.childNodes[pos];
+        }
 
         if (pos !== -1) {
-            storedTask.splice(pos, 1);
+            storedTask.data.splice(pos, 1);
+            //update data in Local Storage
+            localStorage.setItem("task", JSON.stringify(storedTask));
         }
         lu.removeChild(li);
     }
@@ -586,8 +634,8 @@ document.getElementById("btn_add").addEventListener("click", function () {
 document.querySelector(".add-hidden").addEventListener("click", showCreate);
 
 document.getElementById("btn_play").addEventListener("click", function () {
-    Play.playSettings();
-    Play.playFromCreate(Play.getTask());
+    var task = Play.playSettings();
+    Play.playFromCreate(task);
 
     if(document.body.clientWidth <= 767){
         hideCreate();
@@ -602,15 +650,52 @@ document.getElementById("btn_close_card").addEventListener("click", function(){
 });
 document.getElementById("btn_dont_save").addEventListener("click", function(){
     inProgress = false;
+
+    //remove the item from pending list
+    ListBinding.removeItem(Play.getTmpTask().id);
+
+    //make the wrap
+    Play.setTask(Play.getTmpTask());
+    Play.setTmpTask(null);
+
     Play.playFromCreate(Play.getTask());
     document.getElementById("id_warning").style.display = "none";
+
 });
 
 document.getElementById("btn_save").addEventListener("click", function(){
     inProgress = false;
+    //remove the item from pending list
+    ListBinding.removeItem(Play.getTmpTask().id);
+
+    //add the current task to pending
     ListBinding.addItemToDOM(Play.getTask());
+
+    //set new task time
+    Play.playSettings(Play.getTmpTask());
+
+    Play.setTask(Play.getTmpTask());
+    Play.setTmpTask(null);
+
+    //start that task
+    Play.playProgress();
+
+    
     document.getElementById("id_warning").style.display = "none";
 });
+
+//load the stored task
+function renderTasks(){
+    //check that there are stored tasks
+    if(!storedTask.data.length) return;
+
+    //iterate over the stored task
+    for(let i = 0; i < storedTask.data.length; i++){
+        var task = storedTask.data[i];
+        ListBinding.addItemToDOM(task, true);
+    }
+}
+renderTasks();
 
 //After adding the task
 //set opcity to see the change
@@ -646,8 +731,8 @@ function fillItem(opacity, pos) {
 
 function getPositionTask(priority) {
     //iterate through the list
-    for (var i = 0; i < storedTask.length; i++) {
-        var aux = storedTask[i].priority;
+    for (var i = 0; i < storedTask.data.length; i++) {
+        var aux = storedTask.data[i].priority;
         if (aux <= priority) {
             return i;
         }
@@ -656,13 +741,12 @@ function getPositionTask(priority) {
 }
 
 function getPositionStored(id) {
-    for (var i = 0; i < storedTask.length; i++) {
-        var auxId = storedTask[i].id;
+    for (var i = 0; i < storedTask.data.length; i++) {
+        var auxId = storedTask.data[i].id;
         if (auxId === id) {
             return i;
         }
     }
-
     return -1;
 }
 
